@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using TaskTree.Helpers;
-using TaskTree.Repositories;
+using TaskTree.Repositories.Abstract;
+using TaskTree.Repositories.Concrete;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,6 +18,8 @@ builder.Services.AddDbContext<DataContext>(options => {
     options.UseNpgsql("WebApiDatabase");
 });
 builder.Services.AddScoped<IProjectRepository, ProjectRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IProjectTaskRepository, ProjectTaskRepository>();
 
 var app = builder.Build();
 

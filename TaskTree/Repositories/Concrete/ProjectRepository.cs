@@ -1,8 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TaskTree.Helpers;
 using TaskTree.Models;
+using TaskTree.Repositories.Abstract;
 
-namespace TaskTree.Repositories
+namespace TaskTree.Repositories.Concrete
 {
     public class ProjectRepository : IProjectRepository
     {
@@ -20,7 +21,7 @@ namespace TaskTree.Repositories
         public async Task Delete(int id)
         {
             var itemToDelete = await _context.Projects.FindAsync(id);
-            if(itemToDelete == null)
+            if (itemToDelete == null)
             {
                 throw new NullReferenceException();
             }

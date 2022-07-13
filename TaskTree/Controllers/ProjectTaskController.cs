@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TaskTree.Models;
+using TaskTree.Repositories.Abstract;
 
 namespace TaskTree.Controllers
 {
@@ -8,57 +9,64 @@ namespace TaskTree.Controllers
     [ApiController]
     public class ProjectTaskController : ControllerBase
     {
-        List<ProjectTask> tasks = new List<ProjectTask>
+        private readonly IProjectTaskRepository _projectTaskRepository;
+        public ProjectTaskController(IProjectTaskRepository projectTaskRepository)
         {
-            new ProjectTask{Id = 1,Reporter=null,Assignee=null,StartDate=new DateTime(2020,03,03),EndDate=DateTime.Now},
-            new ProjectTask{Id = 2,Reporter=null,Assignee=null,StartDate=new DateTime(2019,01,01),EndDate=DateTime.Now},
-        };
+            _projectTaskRepository = projectTaskRepository;
+        }
 
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            return Ok(tasks);
+            var projects = await _projectTaskRepository.GetAll();
+            return Ok(projects);
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
-            var task = tasks.Find(p => p.Id == id);
-            if (task == null)
-                return BadRequest("Task Not Found");
-            return Ok(task);
+            var project = await _projectTaskRepository.Get(id);
+            if (project == null)
+                return BadRequest("Project Not Found");
+            return Ok(project);
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddProject(ProjectTask task)
+        public async Task<IActionResult> AddProjectTask(ProjectTask projectTask)
         {
-            tasks.Add(task);
-            return Ok(task);
+            ProjectTask newProjectTask = new()
+            {
+                StartDate = projectTask.StartDate,
+                EndDate = projectTask.EndDate,
+                Assignee = projectTask.Assignee,
+                Reporter = projectTask.Reporter,
+            };
+            await _projectTaskRepository.Add(newProjectTask);
+            return Ok();
         }
 
         [HttpPut]
-        public async Task<IActionResult> UpdateProject(ProjectTask request)
+        public async Task<IActionResult> UpdateProjectTask(ProjectTask request)
         {
-            var task = tasks.Find(p => p.Id == request.Id);
-            if (task == null)
-                return BadRequest("Task Not Found");
-            task.Reporter = request.Reporter;
-            task.StartDate = request.StartDate;
-            task.EndDate = request.EndDate;
-            task.Assignee = request.Assignee;
-            task.Reporter = request.Reporter;
-
-            return Ok(tasks);
+            ProjectTask projectTask = new()
+            {
+                Id = request.Id,
+                Assignee = request.Assignee,
+                StartDate = request.StartDate,
+                EndDate = request.EndDate,
+                Reporter = request.Reporter,
+            };
+            await _projectTaskRepository.Update(projectTask);
+            return Ok();
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            var task = tasks.Find(p => p.Id == id);
-            if (task == null)
-                return BadRequest("Task Not Found");
-            tasks.Remove(task);
-            return Ok(task);
+            await _projectTaskRepository.Delete(id);
+            return Ok();
         }
+
     }
 }
+

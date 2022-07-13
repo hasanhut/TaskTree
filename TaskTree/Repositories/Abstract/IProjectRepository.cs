@@ -1,6 +1,6 @@
 ﻿using TaskTree.Models;
 
-namespace TaskTree.Repositories
+namespace TaskTree.Repositories.Abstract
 {
     public interface IProjectRepository
     {

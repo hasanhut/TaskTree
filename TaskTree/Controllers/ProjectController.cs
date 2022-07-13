@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TaskTree.Models;
-using TaskTree.Repositories;
+using TaskTree.Repositories.Abstract;
 
 namespace TaskTree.Controllers
 {
@@ -9,11 +9,6 @@ namespace TaskTree.Controllers
     [ApiController]
     public class ProjectController : ControllerBase
     {
-        //List<Project> projects = new List<Project>
-        //{
-        //    new Project{Id = 1,Name="TestProject",StartDate=DateTime.Now,EndDate=new DateTime(2050,01,01),Explanation="TEST PROJECT"},
-        //    new Project{Id = 2,Name="THYProject",StartDate=DateTime.Now,EndDate=new DateTime(2050,01,01),Explanation="THY TEST PROJECT"}
-        //};
         private readonly IProjectRepository _projectRepository;
         public ProjectController(IProjectRepository projectRepository)
         {
