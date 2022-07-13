@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TaskTree.Models;
+using TaskTree.Repositories;
 
 namespace TaskTree.Controllers
 {
@@ -8,22 +9,28 @@ namespace TaskTree.Controllers
     [ApiController]
     public class ProjectController : ControllerBase
     {
-        List<Project> projects = new List<Project>
+        //List<Project> projects = new List<Project>
+        //{
+        //    new Project{Id = 1,Name="TestProject",StartDate=DateTime.Now,EndDate=new DateTime(2050,01,01),Explanation="TEST PROJECT"},
+        //    new Project{Id = 2,Name="THYProject",StartDate=DateTime.Now,EndDate=new DateTime(2050,01,01),Explanation="THY TEST PROJECT"}
+        //};
+        private readonly IProjectRepository _projectRepository;
+        public ProjectController(IProjectRepository projectRepository)
         {
-            new Project{Id = 1,Name="TestProject",StartDate=DateTime.Now,EndDate=new DateTime(2050,01,01),Explanation="TEST PROJECT"},
-            new Project{Id = 2,Name="THYProject",StartDate=DateTime.Now,EndDate=new DateTime(2050,01,01),Explanation="THY TEST PROJECT"}
-        };
+            _projectRepository = projectRepository;
+        }
 
         [HttpGet]
         public async Task<IActionResult> Get()
         {
+            var projects = await _projectRepository.GetAll();
             return Ok(projects);
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
-            var project = projects.Find(p => p.Id == id);
+            var project = await _projectRepository.Get(id);
             if(project == null)
                 return BadRequest("Project Not Found");
             return Ok(project);
@@ -32,32 +39,38 @@ namespace TaskTree.Controllers
         [HttpPost]
         public async Task<IActionResult> AddProject(Project project)
         {
-            projects.Add(project);
-            return Ok(projects);
+            Project newProject = new()
+            {
+                Name = project.Name,
+                Explanation = project.Explanation,
+                StartDate = project.StartDate,
+                EndDate = project.EndDate
+            };
+            await _projectRepository.Add(newProject);
+            return Ok();
         }
 
         [HttpPut]
         public async Task<IActionResult> UpdateProject(Project request)
         {
-            var project = projects.Find(p => p.Id == request.Id);
-            if (project == null)
-                return BadRequest("Project Not Found");
-            project.Name = request.Name;
-            project.StartDate = request.StartDate;
-            project.EndDate = request.EndDate;
-            project.Explanation = request.Explanation;
-
-            return Ok(projects);
+            Project project = new()
+            {
+                Id = request.Id,
+                Name = request.Name,
+                StartDate = request.StartDate,
+                EndDate = request.EndDate,
+                Explanation = request.Explanation,
+            };
+            await _projectRepository.Update(project);
+            return Ok();
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            var project = projects.Find(p => p.Id == id);
-            if (project == null)
-                return BadRequest("Project Not Found");
-            projects.Remove(project);
-            return Ok(project);
+            await _projectRepository.Delete(id);
+            return Ok();
         }
+
     }
 }
