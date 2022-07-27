@@ -12,8 +12,8 @@ using TaskTree.Helpers;
 namespace TaskTree.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20220713113219_postgre")]
-    partial class postgre
+    [Migration("20220727115553_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -32,8 +32,9 @@ namespace TaskTree.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("EndDate")
-                        .HasColumnType("timestamp with time zone");
+                    b.Property<string>("EndDate")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<string>("Explanation")
                         .IsRequired()
@@ -43,8 +44,9 @@ namespace TaskTree.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<DateTime>("StartDate")
-                        .HasColumnType("timestamp with time zone");
+                    b.Property<string>("StartDate")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
@@ -92,15 +94,11 @@ namespace TaskTree.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.Property<string>("Password")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("Surname")
+                    b.Property<string>("Username")
                         .IsRequired()
                         .HasColumnType("text");
 

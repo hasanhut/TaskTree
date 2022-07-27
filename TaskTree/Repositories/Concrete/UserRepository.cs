@@ -44,8 +44,7 @@ namespace TaskTree.Repositories.Concrete
             var itemToUpdate = await _context.Users.FindAsync(user.Id);
             if (itemToUpdate == null)
                 throw new NullReferenceException();
-            itemToUpdate.Name = user.Name;
-            itemToUpdate.Surname = user.Surname;
+            itemToUpdate.Username = user.Username;
             itemToUpdate.Email = user.Email;
             itemToUpdate.Password = user.Password;
             await _context.SaveChangesAsync();

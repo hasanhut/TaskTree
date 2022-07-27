@@ -92,15 +92,11 @@ namespace TaskTree.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.Property<string>("Password")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("Surname")
+                    b.Property<string>("Username")
                         .IsRequired()
                         .HasColumnType("text");
 

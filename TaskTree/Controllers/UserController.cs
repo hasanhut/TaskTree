@@ -36,8 +36,7 @@ namespace TaskTree.Controllers
         {
             User newUser = new()
             {
-                Name = user.Name,
-                Surname = user.Surname,
+                Username = user.Username,
                 Email = user.Email,
                 Password = user.Password,
             };
@@ -51,8 +50,7 @@ namespace TaskTree.Controllers
             User User = new()
             {
                 Id = request.Id,
-                Name = request.Name,
-                Surname=request.Surname,
+                Username = request.Username,
                 Password = request.Password,
                 Email = request.Email,
             };
