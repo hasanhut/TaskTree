@@ -12,8 +12,8 @@ using TaskTree.Helpers;
 namespace TaskTree.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20220809103650_newMig2")]
-    partial class newMig2
+    [Migration("20220818132945_homepc2")]
+    partial class homepc2
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

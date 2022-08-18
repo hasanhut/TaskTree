@@ -36,6 +36,7 @@ namespace TaskTree.Controllers
         {
             ProjectTask newProjectTask = new()
             {
+                TaskName = projectTask.TaskName,
                 StartDate = projectTask.StartDate,
                 EndDate = projectTask.EndDate,
                 Assignee = projectTask.Assignee,
@@ -51,6 +52,7 @@ namespace TaskTree.Controllers
             ProjectTask projectTask = new()
             {
                 Id = request.Id,
+                TaskName = request.TaskName,
                 Assignee = request.Assignee,
                 StartDate = request.StartDate,
                 EndDate = request.EndDate,
