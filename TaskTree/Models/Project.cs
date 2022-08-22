@@ -7,6 +7,8 @@
         public string Explanation { get; set; }
         public string StartDate { get; set; }
         public string EndDate { get; set; }
+        public ICollection<ProjectTask> ProjectTasks { get; set; }
+
         /*
         public Requirement Requirement
         public MileStone MileStone

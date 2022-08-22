@@ -5,7 +5,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace TaskTree.Migrations
 {
-    public partial class homepc2 : Migration
+    public partial class @new : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -49,8 +49,9 @@ namespace TaskTree.Migrations
                     TaskName = table.Column<string>(type: "text", nullable: false),
                     StartDate = table.Column<string>(type: "text", nullable: false),
                     EndDate = table.Column<string>(type: "text", nullable: false),
-                    AssigneeId = table.Column<int>(type: "integer", nullable: true),
-                    ReporterId = table.Column<int>(type: "integer", nullable: true)
+                    AssigneeId = table.Column<int>(type: "integer", nullable: false),
+                    ReporterId = table.Column<int>(type: "integer", nullable: false),
+                    ProjectId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -59,12 +60,14 @@ namespace TaskTree.Migrations
                         name: "FK_ProjectTasks_Users_AssigneeId",
                         column: x => x.AssigneeId,
                         principalTable: "Users",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_ProjectTasks_Users_ReporterId",
                         column: x => x.ReporterId,
                         principalTable: "Users",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(

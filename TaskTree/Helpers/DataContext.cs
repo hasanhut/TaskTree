@@ -18,7 +18,17 @@ namespace TaskTree.Helpers
             options.UseNpgsql(Configuration.GetConnectionString("WebApiDatabase"));
         }
 
-        public DbSet<User> Users { get; set; }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            // configures one-to-many relationship
+            modelBuilder.Entity<ProjectTask>()
+                .WithMany(g => g.Projects)
+                .HasForeignKey<int>(s => s.ProjectId);
+        }
+
+
+
+    public DbSet<User> Users { get; set; }
         public DbSet<Project> Projects { get; set; }
         public DbSet<ProjectTask> ProjectTasks { get; set; }
     }
