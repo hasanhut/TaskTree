@@ -57,6 +57,12 @@ namespace TaskTree.Migrations
                 {
                     table.PrimaryKey("PK_ProjectTasks", x => x.Id);
                     table.ForeignKey(
+                        name: "FK_ProjectTasks_Projects_ProjectId",
+                        column: x => x.ProjectId,
+                        principalTable: "Projects",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
                         name: "FK_ProjectTasks_Users_AssigneeId",
                         column: x => x.AssigneeId,
                         principalTable: "Users",
@@ -76,6 +82,11 @@ namespace TaskTree.Migrations
                 column: "AssigneeId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_ProjectTasks_ProjectId",
+                table: "ProjectTasks",
+                column: "ProjectId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_ProjectTasks_ReporterId",
                 table: "ProjectTasks",
                 column: "ReporterId");
@@ -84,10 +95,10 @@ namespace TaskTree.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Projects");
+                name: "ProjectTasks");
 
             migrationBuilder.DropTable(
-                name: "ProjectTasks");
+                name: "Projects");
 
             migrationBuilder.DropTable(
                 name: "Users");

@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
+using System.Text.Json.Serialization;
 using TaskTree.Helpers;
 using TaskTree.Repositories.Abstract;
 using TaskTree.Repositories.Concrete;
@@ -38,7 +39,8 @@ builder.Services.AddSwaggerGen(c => {
         }
     });
 });
-
+builder.Services.AddControllers().AddJsonOptions(x =>
+                x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 builder.Services.AddDbContext<DataContext>(options => {
     options.UseNpgsql("WebApiDatabase");
 });

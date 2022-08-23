@@ -36,7 +36,7 @@ namespace TaskTree.Repositories.Concrete
 
         public async Task<IEnumerable<ProjectTask>> GetAll()
         {
-            return await _context.ProjectTasks.ToListAsync();
+            return await _context.ProjectTasks.Include(p => p.Project).Include(p=> p.Reporter).ToListAsync();
         }
 
         public async Task Update(ProjectTask projectTask)

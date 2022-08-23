@@ -11,7 +11,7 @@ using TaskTree.Helpers;
 namespace TaskTree.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20220822120611_new")]
+    [Migration("20220823081150_new")]
     partial class @new
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -85,6 +85,8 @@ namespace TaskTree.Migrations
 
                     b.HasIndex("AssigneeId");
 
+                    b.HasIndex("ProjectId");
+
                     b.HasIndex("ReporterId");
 
                     b.ToTable("ProjectTasks");
@@ -120,6 +122,12 @@ namespace TaskTree.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("TaskTree.Models.Project", "Project")
+                        .WithMany("ProjectTasks")
+                        .HasForeignKey("ProjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("TaskTree.Models.User", "Reporter")
                         .WithMany()
                         .HasForeignKey("ReporterId")
@@ -128,7 +136,14 @@ namespace TaskTree.Migrations
 
                     b.Navigation("Assignee");
 
+                    b.Navigation("Project");
+
                     b.Navigation("Reporter");
+                });
+
+            modelBuilder.Entity("TaskTree.Models.Project", b =>
+                {
+                    b.Navigation("ProjectTasks");
                 });
 #pragma warning restore 612, 618
         }

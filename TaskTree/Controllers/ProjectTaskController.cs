@@ -39,8 +39,8 @@ namespace TaskTree.Controllers
                 TaskName = projectTask.TaskName,
                 StartDate = projectTask.StartDate,
                 EndDate = projectTask.EndDate,
-                Assignee = projectTask.Assignee,
-                Reporter = projectTask.Reporter,
+                AssigneeId = projectTask.AssigneeId,
+                ReporterId = projectTask.ReporterId,
                 ProjectId = projectTask.ProjectId
             };
             await _projectTaskRepository.Add(newProjectTask);
@@ -54,10 +54,10 @@ namespace TaskTree.Controllers
             {
                 Id = request.Id,
                 TaskName = request.TaskName,
-                Assignee = request.Assignee,
                 StartDate = request.StartDate,
                 EndDate = request.EndDate,
-                Reporter = request.Reporter,
+                AssigneeId = request.AssigneeId,
+                ReporterId = request.ReporterId,
                 ProjectId = request.ProjectId
             };
             await _projectTaskRepository.Update(projectTask);
