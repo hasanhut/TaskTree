@@ -12,5 +12,6 @@
         public virtual User? Reporter { get; set; }
         public int ProjectId { get; set; }
         public virtual Project? Project { get; set; }
+        public string Status { get; set; }
     }
 }

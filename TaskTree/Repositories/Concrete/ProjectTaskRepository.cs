@@ -31,7 +31,12 @@ namespace TaskTree.Repositories.Concrete
 
         public async Task<ProjectTask> Get(int id)
         {
-            return await _context.ProjectTasks.FindAsync(id);
+            return await _context.ProjectTasks.Include(p => p.Project).Include(p => p.Reporter).FirstOrDefaultAsync(i => i.Id == id);
+        }
+
+        public async Task<IEnumerable<ProjectTask>> GetByProjectId(int id)
+        {
+            return await _context.ProjectTasks.Include(p => p.Project).Include(p => p.Reporter).Where(i => i.ProjectId == id).ToListAsync();
         }
 
         public async Task<IEnumerable<ProjectTask>> GetAll()

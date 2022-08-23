@@ -31,6 +31,15 @@ namespace TaskTree.Controllers
             return Ok(project);
         }
 
+        [HttpGet("project/{id}")]
+        public async Task<IActionResult> GetByProjectId(int id)
+        {
+            var project = await _projectTaskRepository.GetByProjectId(id);
+            if (project == null)
+                return BadRequest("Project Not Found");
+            return Ok(project);
+        }
+
         [HttpPost]
         public async Task<IActionResult> AddProjectTask(ProjectTask projectTask)
         {
@@ -41,7 +50,8 @@ namespace TaskTree.Controllers
                 EndDate = projectTask.EndDate,
                 AssigneeId = projectTask.AssigneeId,
                 ReporterId = projectTask.ReporterId,
-                ProjectId = projectTask.ProjectId
+                ProjectId = projectTask.ProjectId,
+                Status = projectTask.Status
             };
             await _projectTaskRepository.Add(newProjectTask);
             return Ok();
@@ -58,7 +68,8 @@ namespace TaskTree.Controllers
                 EndDate = request.EndDate,
                 AssigneeId = request.AssigneeId,
                 ReporterId = request.ReporterId,
-                ProjectId = request.ProjectId
+                ProjectId = request.ProjectId,
+                Status = request.Status
             };
             await _projectTaskRepository.Update(projectTask);
             return Ok();
